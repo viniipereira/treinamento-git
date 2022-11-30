@@ -1,3 +1,8 @@
+
+1 - 
+
+DELIMITER $
+CREATE PROCEDURE calculaX(IN A INT, IN B INT, in C INT)
 BEGIN
  DECLARE X1 FLOAT;
  DECLARE X2 FLOAT;
@@ -7,7 +12,7 @@ BEGIN
  set X2 = (-B + (SQRT(delta))) / (2 * A);
  SELECT X1;
  SELECT X2;
-END
+END$
 
 
 2- 
@@ -44,6 +49,7 @@ END$
 
 3 - 
 
+DELIMITER $
 CREATE TRIGGER verifica_se_tem_mais_de_10_pedidos AFTER INSERT ON pedido_venda
 FOR EACH ROW
 BEGIN
@@ -52,4 +58,16 @@ select count(*) into pedidos from pedido_venda where pedido_venda.id_funcionario
 if(pedidos > 10) then
  UPDATE funcionario set salario_fixo = salario_fixo * 1.01 where id_funcionario = new.id_funcionario;
  end if;
-END;
+END$
+
+4-
+DELIMITER $
+CREATE TRIGGER mais_de_1_pedido_em_45_dias AFTER INSERT ON pedido_venda
+FOR EACH ROW
+BEGIN
+declare pedidos int;
+select count(*) into pedidos from pedido_venda where pedido_venda.id_cliente = new.id_cliente and pedido_venda.data BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -45 DAY) AND CURRENT_DATE();
+if(pedidos >= 1) then
+ UPDATE pedido_venda SET total= total * 0.95 where pedido_venda.id_pedido_venda = new.id_pedido_venda;
+ end if;
+END$
