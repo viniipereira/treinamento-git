@@ -8,3 +8,15 @@ BEGIN
  SELECT X1;
  SELECT X2;
 END
+
+
+2- 
+
+CREATE TRIGGER atualiza_insert_total_venda AFTER INSERT ON itens_pedido_venda
+FOR EACH ROW
+BEGIN
+ UPDATE pedido_venda SET total=total+(NEW.quantidade*NEW.preco) WHERE
+id_pedido_venda=NEW.id_pedido_venda;
+END;
+
+3 - 
