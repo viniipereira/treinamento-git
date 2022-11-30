@@ -11,12 +11,22 @@ END
 
 
 2- 
+apos insert 
 
 CREATE TRIGGER atualiza_insert_total_venda AFTER INSERT ON itens_pedido_venda
 FOR EACH ROW
 BEGIN
  UPDATE pedido_venda SET total=total+(NEW.quantidade*NEW.preco) WHERE
 id_pedido_venda=NEW.id_pedido_venda;
+END;
+
+apos update 
+
+CREATE TRIGGER atualiza_update_total_venda AFTER update ON itens_pedido_venda
+FOR EACH ROW
+BEGIN
+ UPDATE pedido_venda SET total=total +(NEW.quantidade*NEW.preco) -
+(OLD.quantidade*OLD.preco) WHERE id_pedido_venda=NEW.id_pedido_venda;
 END;
 
 3 - 
