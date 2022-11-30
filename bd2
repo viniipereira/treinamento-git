@@ -46,3 +46,12 @@ END$
 
 
 
+DELIMITER $
+CREATE TRIGGER verifica_se_tem_mais_de_10_pedidos AFTER INSERT ON pedido_venda
+FOR EACH ROW
+BEGIN
+declare pedidos int;
+set pedidos = select count(*) from pedido_venda where id_funcionario = new.id_funcionario;
+ UPDATE pedido_venda SET total=total+(NEW.quantidade*NEW.preco) WHERE
+id_pedido_venda=NEW.id_pedido_venda;
+END$
