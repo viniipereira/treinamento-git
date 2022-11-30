@@ -1,0 +1,10 @@
+BEGIN
+ DECLARE X1 FLOAT;
+ DECLARE X2 FLOAT;
+ DECLARE delta FLOAT;
+ set delta = (B * B) - 4 * A * C;
+ set X1 = (-B -(SQRT(delta))) / (2 * A);
+ set X2 = (-B + (SQRT(delta))) / (2 * A);
+ SELECT X1;
+ SELECT X2;
+END
