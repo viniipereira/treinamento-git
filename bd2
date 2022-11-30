@@ -68,6 +68,6 @@ BEGIN
 declare pedidos int;
 select count(*) into pedidos from pedido_venda where pedido_venda.id_cliente = new.id_cliente and pedido_venda.data BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -45 DAY) AND CURRENT_DATE();
 if(pedidos >= 1) then
- UPDATE pedido_venda SET total= total * 0.95 where pedido_venda.id_pedido_venda = new.id_pedido_venda;
+ UPDATE pedido_venda SET total= total * 0.95 where id_pedido_venda = new.id_pedido_venda;
  end if;
 END$
